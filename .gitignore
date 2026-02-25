@@ -1,0 +1,72 @@
+# =========================
+# Node
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+# =========================
+# Angular build output
+# =========================
+dist/
+out-tsc/
+build/
+tmp/
+temp/
+
+# =========================
+# Environment files
+# =========================
+src/environments/*.local.ts
+src/environments/environment.*.ts
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+logs
+*.log
+
+# =========================
+# Coverage
+# =========================
+coverage/
+
+# =========================
+# Angular cache
+# =========================
+.angular/cache
+
+# =========================
+# Firebase / Secrets / Env
+# =========================
+.env
+.env.local
+.env.production
+.env.development
+
+# =========================
+# Misc
+# =========================
+*.tmp
+*.bak
+*.old

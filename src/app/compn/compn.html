@@ -1,0 +1,88 @@
+<section class="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+
+  <!-- Background Image -->
+  <img src="/assets/godavari.jpg" alt="bg"
+       class="absolute inset-0 w-full h-full object-cover" />
+
+  <!-- Dark Overlay -->
+  <div class="absolute inset-0 bg-black/70"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-6 w-full max-w-4xl">
+
+    <!-- Company Name -->
+    <h2 class="text-lg md:text-xl mb-2 tracking-wide text-gray-300">
+      MB Career Solutions
+    </h2>
+
+    <!-- Heading -->
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+      We Will Be Back <span class="text-red-500">Soon!</span>
+    </h1>
+
+    <!-- Description -->
+    <p class="text-gray-300 text-base md:text-lg mb-8">
+      We are upgrading our website for a better experience.  
+      Leave your email and we will notify you once we are live.
+    </p>
+
+    <!-- Email Input -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+      <input type="email"
+             placeholder="Your Email"
+             class="w-full sm:w-80 px-5 py-3 rounded-full text-black focus:outline-none" />
+
+      <button
+        class="px-8 py-3 rounded-full bg-red-500 hover:bg-red-600 transition font-semibold">
+        NOTIFY ME!
+      </button>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="flex justify-center space-x-6 text-xl mb-10">
+      <a href="#" class="hover:text-red-400"><i class="fab fa-facebook"></i></a>
+      <a href="#" class="hover:text-red-400"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="hover:text-red-400"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="hover:text-red-400"><i class="fab fa-linkedin"></i></a>
+      <a href="#" class="hover:text-red-400"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <!-- Countdown Title -->
+    <p class="text-gray-300 mb-6">We will relaunch our website in</p>
+
+    <!-- Countdown -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 justify-center">
+
+      <div class="bg-white/10 backdrop-blur-md rounded-full py-6">
+        <h2 class="text-3xl font-bold">{{days}}</h2>
+        <p class="text-sm text-gray-300">Days</p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md rounded-full py-6">
+        <h2 class="text-3xl font-bold">{{hours}}</h2>
+        <p class="text-sm text-gray-300">Hours</p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md rounded-full py-6">
+        <h2 class="text-3xl font-bold">{{minutes}}</h2>
+        <p class="text-sm text-gray-300">Minutes</p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md rounded-full py-6">
+        <h2 class="text-3xl font-bold">{{seconds}}</h2>
+        <p class="text-sm text-gray-300">Seconds</p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-12 text-gray-400 text-sm">
+      Designed by 
+      <a href="https://techtrident.in/" target="_blank"
+         class="text-red-400 hover:underline">
+         TechTrident
+      </a>
+    </div>
+
+  </div>
+</section>
