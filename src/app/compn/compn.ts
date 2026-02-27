@@ -34,7 +34,7 @@ export class Compn implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.targetDate = new Date(2026, 2, 3, 10, 0, 0);
+    this.targetDate = new Date(2026, 3, 3, 11, 0, 0);
     this.updateCountdown();
 
     this.intervalId = setInterval(() => {
