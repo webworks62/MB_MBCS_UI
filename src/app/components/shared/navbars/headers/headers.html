@@ -1,0 +1,98 @@
+<!-- TOP BAR (Mobile Title + Desktop Full Navbar) -->
+<nav class="top-0 left-0 w-full bg-transparent z-50">
+  <div
+    class="mx-auto w-full px-4 py-3 md:px-6 md:py-4 flex justify-center md:justify-between items-center md:rounded-b-4xl bg-gray-200"
+  >
+    <!-- Logo / Title -->
+    <div class="flex items-center justify-center gap-2" routerLink="/">
+      <img src="assets/mb-logo.png" alt="MB Careers Logo" class="w-10 h-9 object-contain" />
+
+      <h1 class="text-lg md:text-sm font-bold tracking-wide">
+        <!-- <span class="text-sm md:text-sm">MB</span>  -->
+        Careers
+      </h1>
+    </div>
+
+    <!-- Desktop Menu Only -->
+    <ul class="hidden md:flex space-x-8 text-sm uppercase font-medium">
+      <li><a routerLink="/" class="hover:text-amber-700 transition">Home</a></li>
+      <li><a routerLink="/about-us" class="hover:text-amber-700 transition">About Us</a></li>
+      <li><a routerLink="/courses" class="hover:text-amber-700 transition">courses</a></li>
+      <!-- <li><a routerLink="/admissions" class="hover:text-amber-700 transition">Admissions</a></li> -->
+      <li><a routerLink="/services" class="hover:text-amber-700 transition">Services</a></li>
+      <li><a routerLink="/contact-us" class="hover:text-amber-700 transition">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- BOTTOM MENU (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full bg-gray-200 rounded-t-2xl shadow-lg z-50 md:hidden">
+  <ul class="flex justify-around items-center py-3">
+    <!-- Home -->
+    <li>
+      <a
+        routerLink="/"
+        class="flex items-center justify-center hover:text-amber-700 transition"
+        aria-label="Home"
+      >
+        <img src="/assets/custom icons/home.png" alt="Home" class="w-6 h-6 object-contain" />
+      </a>
+
+      <!-- courses -->
+    </li>
+
+        <li>
+      <a
+        routerLink="/courses"
+        class="flex items-center justify-center hover:text-amber-700 transition"
+        aria-label="Courses"
+      >
+        <img src="/assets/custom icons/online-certificate.png" alt="Courses" class="w-6 h-6 object-contain" />
+      </a>
+    </li>
+
+    <!-- Services -->
+    <li>
+      <a
+        routerLink="/services"
+        class="flex items-center justify-center hover:text-amber-700 transition"
+        aria-label="Services"
+      >
+        <img
+          src="/assets/custom icons/services.png"
+          alt="Services"
+          class="w-6 h-6 object-contain"
+        />
+      </a>
+    </li>
+
+    <!-- About -->
+    <li>
+      <a
+        routerLink="/about-us"
+        class="flex items-center justify-center hover:text-amber-700 transition"
+        aria-label="About Us"
+      >
+        <img src="/assets/custom icons/about.png" alt="About Us" class="w-6 h-6 object-contain" />
+      </a>
+    </li>
+
+    <!-- Contact -->
+    <li>
+      <a
+        routerLink="/contact-us"
+        class="flex items-center justify-center hover:text-amber-700 transition"
+        aria-label="Contact Us"
+      >
+        <img
+          src="/assets/custom icons/contact-us.png"
+          alt="Contact Us"
+          class="w-6 h-6 object-contain"
+        />
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Spacer for mobile top bar -->
+<div class="h-14 md:hidden"></div>

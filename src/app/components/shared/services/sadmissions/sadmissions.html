@@ -1,0 +1,39 @@
+<div class="bg-white rounded-2xl shadow-xl
+            p-4 sm:p-6 md:p-8
+            w-full max-w-4xl mx-auto">
+
+  <!-- Heading -->
+  <h3 class="text-xl sm:text-2xl md:text-3xl
+             font-bold text-gray-800
+             mb-4 sm:mb-6">
+    Admission Process Support
+  </h3>
+
+  <!-- Steps List -->
+  <ul class="space-y-4 sm:space-y-5 md:space-y-6">
+
+    @for (desc of description; track $index) {
+      <li class="flex items-start gap-3 sm:gap-4">
+
+        <!-- Step Number -->
+        <div class="flex items-center justify-center
+                    min-w-8 min-h-8
+                    w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10
+                    rounded-full bg-amber-500
+                    text-white font-semibold
+                    text-xs sm:text-sm md:text-base">
+          {{ $index + 1 }}
+        </div>
+
+        <!-- Text -->
+        <p class="text-gray-700
+                  text-sm sm:text-base md:text-lg
+                  leading-relaxed">
+          {{ desc }}
+        </p>
+
+      </li>
+    }
+
+  </ul>
+</div>

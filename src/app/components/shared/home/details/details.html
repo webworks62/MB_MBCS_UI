@@ -1,0 +1,37 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 p-6">
+
+  <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- Image Section -->
+    <div class="flex justify-center items-center">
+      <img
+        src="/assets/images/pexels-thirdman-5256693.jpg"
+        alt="Details Image"
+        class="w-full max-w-md rounded-xl shadow-md transform hover:scale-105 transition duration-300"
+      />
+    </div>
+
+    <!-- Text Section -->
+    <div class="flex flex-col justify-center text-gray-800">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">
+        Detailed Information
+      </h2>
+
+      <p class="text-gray-600 leading-relaxed">
+        Explore comprehensive details about our offerings, features, and benefits.
+        Stay informed and make the best choices with all the information you need at your fingertips.
+      </p>
+
+      <div class="mt-6 flex gap-4">
+        <!-- <button class="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-md">
+          Learn More
+        </button> -->
+        <button class="px-5 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 transition" (click)="clickToContact()">
+          Contact Us
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,79 @@
+<section class="min-h-screen bg-gray-100 pt-20 sm:pt-24 pb-16 px-4 sm:px-6 overflow-hidden">
+
+  <!-- Header -->
+  <div class="text-center mb-10 sm:mb-12">
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">
+      Student & Parent <span class="text-amber-700">Testimonials</span>
+    </h1>
+    <p class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm sm:text-base">
+      Hear from students and parents who have experienced our professional guidance,
+      transparent processes, and dedicated support throughout their higher education journey.
+    </p>
+  </div>
+
+  <!-- Carousel Wrapper -->
+  <div class="max-w-7xl mx-auto relative px-2 sm:px-6 lg:px-10">
+
+    <!-- Left Button -->
+    <button
+      (click)="prev()"
+      class="absolute left-0 sm:-left-4 top-1/2 -translate-y-1/2
+             bg-white shadow-lg rounded-full
+             w-10 h-10 sm:w-12 sm:h-12
+             flex items-center justify-center
+             hover:bg-blue-500 hover:text-white
+             transition z-10"
+    >
+      ‹
+    </button>
+
+    <!-- Cards -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+             gap-6 sm:gap-8
+             transition-all duration-700 ease-in-out"
+    >
+      <div
+        *ngFor="let t of displayedTestimonials; trackBy: trackByName"
+        class="bg-white rounded-2xl shadow-md p-6
+               hover:shadow-2xl hover:-translate-y-2
+               transition-all duration-500"
+      >
+        <div class="flex items-center mb-4">
+          <div
+            class="w-11 h-11 sm:w-12 sm:h-12 rounded-full text-white
+                   flex items-center justify-center font-bold"
+            [ngClass]="t.color"
+          >
+            {{ t.initial }}
+          </div>
+
+          <div class="ml-3">
+            <h3 class="font-semibold text-sm sm:text-base">{{ t.name }}</h3>
+            <p class="text-xs sm:text-sm text-gray-500">
+              {{ t.role }}, {{ t.location }}
+            </p>
+          </div>
+        </div>
+
+        <p class="text-gray-600 italic text-sm sm:text-base leading-relaxed">
+          "{{ t.message }}"
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Button -->
+    <button
+      (click)="next()"
+      class="absolute right-0 sm:-right-4 top-1/2 -translate-y-1/2
+             bg-white shadow-lg rounded-full
+             w-10 h-10 sm:w-12 sm:h-12
+             flex items-center justify-center
+             hover:bg-blue-500 hover:text-white
+             transition z-10"
+    >
+      ›
+    </button>
+
+  </div>
+</section>

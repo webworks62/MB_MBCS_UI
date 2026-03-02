@@ -1,0 +1,192 @@
+<section
+  class="min-h-screen bg-cover bg-center flex flex-col items-center justify-center px-4 sm:px-6 lg:px-10 py-12"
+  style="background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d')"
+>
+  <!-- FORM CARD -->
+  <div class="max-w-5xl w-full bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-center">Contact Us</h2>
+
+    <!-- SUCCESS MESSAGE -->
+    <div
+      *ngIf="successMessage"
+      class="mb-4 p-3 rounded-lg bg-green-100 text-green-700 text-center font-medium"
+    >
+      {{ successMessage }}
+    </div>
+
+    <form
+      [formGroup]="contactForm"
+      (ngSubmit)="submit()"
+      class="grid grid-cols-1 md:grid-cols-2 gap-5"
+    >
+      <!-- FULL NAME -->
+      <div class="flex flex-col">
+        <label class="mb-1 font-medium text-sm">Full Name</label>
+        <input
+          type="text"
+          formControlName="fullName"
+          class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter full name"
+        />
+        @if (contactForm.get('fullName')?.invalid && submitted) {
+          <p class="text-red-500 text-xs mt-1">
+            @if (contactForm.get('fullName')?.errors?.['required']) {
+              <span> Full name is required </span>
+            }
+            @if (contactForm.get('fullName')?.errors?.['minlength']) {
+              <span> Minimum 3 characters required </span>
+            }
+          </p>
+        }
+      </div>
+
+      <!-- PHONE -->
+      <div class="flex flex-col">
+        <label class="mb-1 font-medium text-sm">Phone Number</label>
+        <input
+          type="tel"
+          formControlName="phone"
+          class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter phone number"
+        />
+
+        @if (contactForm.get('phone')?.invalid && submitted) {
+          <p class="text-red-500 text-xs mt-1">
+            <span *ngIf="contactForm.get('phone')?.errors?.['required']">
+              Phone number is required
+            </span>
+            <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">
+              Enter a valid 10-digit phone
+            </span>
+          </p>
+        }
+      </div>
+
+      <!-- EMAIL -->
+      <div class="flex flex-col">
+        <label class="mb-1 font-medium text-sm">Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter email"
+        />
+
+        <p *ngIf="contactForm.get('email')?.invalid && submitted" class="text-red-500 text-xs mt-1">
+          <span *ngIf="contactForm.get('email')?.errors?.['required']"> Email is required </span>
+          <span *ngIf="contactForm.get('email')?.errors?.['email']"> Enter a valid email </span>
+        </p>
+      </div>
+
+      <!-- STATE -->
+      <div class="flex flex-col">
+        <label class="mb-1 font-medium text-sm">State</label>
+
+        <select
+          formControlName="state"
+          class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select State</option>
+          <ng-container *ngIf="states.length">
+            <option *ngFor="let item of states" [value]="item.name">
+              {{ item.name }}
+            </option>
+          </ng-container>
+        </select>
+
+        <p
+          *ngIf="contactForm.get('states')?.invalid && submitted"
+          class="text-red-500 text-xs mt-1"
+        >
+          State is required
+        </p>
+      </div>
+
+      <!-- DEGREE -->
+      <div class="flex flex-col">
+        <label class="mb-1 font-medium text-sm">Degree</label>
+
+        <select
+          formControlName="degree"
+          (change)="onDegreeChange()"
+          class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select Degree</option>
+          <ng-container *ngIf="degrees.length">
+            <option *ngFor="let item of degrees" [value]="item">
+              {{ item }}
+            </option>
+          </ng-container>
+        </select>
+
+        <p
+          *ngIf="contactForm.get('degree')?.invalid && submitted"
+          class="text-red-500 text-xs mt-1"
+        >
+          Degree is required
+        </p>
+      </div>
+
+      <!-- COURSE -->
+      <div class="flex flex-col">
+        <label class="mb-1 font-medium text-sm">Course</label>
+
+        <select
+          formControlName="course"
+          class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select Course</option>
+          <ng-container *ngIf="courses.length">
+            <option *ngFor="let c of courses" [value]="c.coursename">
+              {{ c.coursename }}
+            </option>
+          </ng-container>
+        </select>
+
+        <p
+          *ngIf="contactForm.get('course')?.invalid && submitted"
+          class="text-red-500 text-xs mt-1"
+        >
+          Course is required
+        </p>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="md:col-span-2 text-center mt-4">
+        <button
+          type="submit"
+          class="w-full sm:w-auto bg-blue-600 text-white px-10 py-3 rounded-lg hover:bg-blue-700 transition"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- CONTACT INFO CARD -->
+  <div class="max-w-5xl w-full bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center md:text-left">
+      <!-- Address -->
+      <div class="flex flex-col items-center md:items-start">
+        <span class="text-xs text-gray-500 uppercase">Address</span>
+        <h1 class="text-base font-semibold">
+          3 Floor, Raymand Showroom,oppsite rathna hotel, Beside RTC complex,Rajahmundry
+        </h1>
+      </div>
+
+      <!-- Email -->
+      <div class="flex flex-col items-center md:items-start">
+        <span class="text-xs text-gray-500 uppercase">Email</span>
+        <h1 class="text-base font-semibold">mbcareersolutions1@gmail.com</h1>
+      </div>
+
+      <!-- Phone -->
+      <div class="flex flex-col items-center md:items-start">
+        <span class="text-xs text-gray-500 uppercase">Phone</span>
+        <a href="tel:+917330824555">
+          <h1 class="text-base font-semibold">+91 7330824555</h1>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
