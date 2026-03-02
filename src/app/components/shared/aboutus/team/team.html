@@ -1,0 +1,27 @@
+<div class="relative overflow-hidden py-10">
+
+  <div class="flex gap-8 animate-scroll">
+
+    @for (member of duplicatedTeam; track $index) {
+      <div class="min-w-[250px]  text-center p-6  transition">
+
+        <img
+          [src]="member.image"
+          [alt]="member.name"
+          class="w-24 h-24 mx-auto rounded-full object-cover mb-4 border-0"
+        />
+
+        <h3 class="text-lg font-semibold text-gray-800">
+          {{ member.name }}
+        </h3>
+
+        <p class="font-medium mt-1">
+          {{ member.role }}
+        </p>
+
+      </div>
+    }
+
+  </div>
+
+</div>

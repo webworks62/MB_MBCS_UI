@@ -1,0 +1,23 @@
+<section class="container mx-auto px-4 py-8 space-y-12">
+  <!-- Loop through Course Types -->
+  @for (type of courseTypes; track type.id) {
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ type.type }} ({{ type.duration }})</h1>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <!-- Loop through Courses in each type -->
+
+        @for (course of type.courses; track course.id) {
+          <div class="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition">
+            <h2 class="text-xl font-semibold text-indigo-800">
+              {{ course.name }}
+            </h2>
+            <p class="text-gray-600 mt-2 text-sm">
+              {{ course.description }}
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</section>
