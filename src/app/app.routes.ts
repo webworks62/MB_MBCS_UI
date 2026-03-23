@@ -1,4 +1,5 @@
-import { Routes } from '@angular/Router';
+import { Component } from '@angular/core';
+import { Routes } from '@angular/router';
 import { Home } from './components/pages/home/home';
 import { Contactus } from './components/shared/navbars/contactus/contactus';
 import { Aboutus } from './components/pages/aboutus/aboutus';
