@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
-import { Home } from './components/pages/home/home';
-import { Contactus } from './components/shared/navbars/contactus/contactus';
-import { Aboutus } from './components/pages/aboutus/aboutus';
-import { Services } from './components/pages/services/services';
-import { Err404 } from './components/shared/error/err404/err404';
-import { Testpagesa } from './components/shared/navbars/testpagesa/testpagesa';
+import { Home } from './pages/home';
+import { Contactus } from './components/shared/navbars/contactus';
+import { Aboutus } from './pages/aboutus';
+import { Services } from './pages/services';
+import { Err404 } from './components/shared/error/err404';
 import { Sadmissions } from './components/shared/services/sadmissions/sadmissions';
 import { Admissions } from './components/pages/admissions/admissions';
-import { Courses } from './components/pages/courses/courses';
+import { Courses } from './pages/courses';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -20,7 +19,6 @@ export const routes: Routes = [
   { path: 'about-us', component: Aboutus },
   { path: 'services-admissions', component: Sadmissions },
 
-  { path: 'test', component: Testpagesa },
   { path: 'error-404', component: Err404 },
   { path: '**', redirectTo: 'error-404' },
 ];
