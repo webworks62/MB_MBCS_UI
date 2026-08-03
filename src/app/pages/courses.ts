@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-courses',
-  imports: [],
+  imports: [RouterLink],
 template:`<section class="container mx-auto px-4 py-8 space-y-12">
   <!-- Loop through Course Types -->
   @for (type of courseTypes; track type.id) {
@@ -13,11 +14,11 @@ template:`<section class="container mx-auto px-4 py-8 space-y-12">
         <!-- Loop through Courses in each type -->
 
         @for (course of type.courses; track course.id) {
-          <div class="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition">
-            <h2 class="text-xl font-semibold text-indigo-800">
+          <div class="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition" >
+            <h2 routerLink="/colleges" class="text-xl font-semibold text-indigo-800">
               {{ course.name }}
             </h2>
-            <p class="text-gray-600 mt-2 text-sm">
+            <p routerLink="/colleges" class="text-gray-600 mt-2 text-sm">
               {{ course.description }}
             </p>
           </div>

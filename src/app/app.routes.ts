@@ -8,12 +8,17 @@ import { Err404 } from './components/shared/error/err404';
 import { Sadmissions } from './components/shared/services/sadmissions/sadmissions';
 import { Admissions } from './components/pages/admissions/admissions';
 import { Courses } from './pages/courses';
+import { Schems } from './components/pages/home/schems';
+import { Scholarship } from './pages/schlorship';
+import { CourceBasedCollegeList } from './components/pages/cources/courceBasedCollegeList';
 
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'home', component: Home },
   { path: 'courses', component: Courses },
+  { path: 'colleges', component: CourceBasedCollegeList },
   { path: 'services', component: Services },
+  { path: 'schems', component: Scholarship },
   { path: 'admissions', component: Admissions },
   { path: 'contact-us', component: Contactus },
   { path: 'about-us', component: Aboutus },
