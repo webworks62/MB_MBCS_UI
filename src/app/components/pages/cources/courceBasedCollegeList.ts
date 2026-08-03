@@ -1,11 +1,14 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
+import { floatcontact } from "../reviews/flotcontact";
 
 @Component({
   selector: "app-courceBasedCollegeList",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, floatcontact],
   template: `
+
+  <app-floatcontact/>
     <section class="bg-gray-50 py-12">
       <div class="max-w-7xl mx-auto px-4">
 

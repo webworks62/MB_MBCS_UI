@@ -7,8 +7,9 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { ContcatusService } from '../../../serviceslayer/contactus.services';
-import { contactServices } from '../../../serviceslayer/contact.services';
+import { FormSubmissionService } from '../../../serviceslayer/form-submission.service';
 import { CommonModule } from '@angular/common';
+import { URLS } from '../../../urls/URLS';
 
 @Component({
   selector: 'app-contactus',
@@ -437,7 +438,7 @@ export class Contactus implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _serv: ContcatusService,
-    private _postData: contactServices,
+    private formSubmission: FormSubmissionService,
   ) {}
 
   // ---------------- INIT ----------------
@@ -486,19 +487,14 @@ export class Contactus implements OnInit {
 
     const formData = this.contactForm.value;
 
-    console.log('Form Submitted:', formData);
-
-    this._postData.createInfo(formData).subscribe({
-      next: (res: any) => {
-        if (res?.statuscode === 201) {
-          this.successMessage = 'Your details have been submitted successfully!';
+    this.formSubmission.submit(`${URLS.backendapi}contact/create-info`, formData, 'Contact form').subscribe({
+      next: (res) => {
+        this.successMessage = res.success ? 'Your details have been submitted successfully!' : res.message;
+        if (res.success) {
           this.contactForm.reset();
           this.submitted = false;
           this.courses = [];
         }
-      },
-      error: (err) => {
-        console.error('API Error:', err);
       },
     });
   }

@@ -1,7 +1,8 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { FormSubmissionService } from '../../../serviceslayer/form-submission.service';
+import { URLS } from '../../../urls/URLS';
 
 @Component({
   selector: "app-student-review",
@@ -349,9 +350,10 @@ import { HttpClient } from "@angular/common/http";
 })
 export class StudentReview {
   private fb = inject(FormBuilder);
-  private http = inject(HttpClient);
+  private formSubmission = inject(FormSubmissionService);
 
-  private apiUrl = 'https://api.mbcareersolutions.in/api/student-reviews';
+  private apiUrl = `${URLS.backendapi}/student-reviews`;
+
 
   isSubmitting = false;
 
@@ -422,19 +424,14 @@ export class StudentReview {
 
     this.isSubmitting = true;
 
-    this.http.post(this.apiUrl, this.studentForm.value).subscribe({
+    this.formSubmission.submit(this.apiUrl, this.studentForm.value, 'Student application').subscribe({
       next: (response) => {
         this.isSubmitting = false;
-        this.showToast('Application submitted successfully!', 'success');
-        this.studentForm.reset();
-      },
-      error: (error) => {
-        this.isSubmitting = false;
-        console.error('Submission error:', error);
-        if (error.status === 409) {
-          this.showToast('An application with this ID already exists.', 'error');
+        if (response.success) {
+          this.showToast('Application submitted successfully!', 'success');
+          this.studentForm.reset();
         } else {
-          this.showToast('Failed to submit application. Please try again later.', 'error');
+          this.showToast(response.message, 'error');
         }
       }
     });
