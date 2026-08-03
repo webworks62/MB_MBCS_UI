@@ -8,7 +8,30 @@ import { HttpClient } from "@angular/common/http";
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 relative">
+      
+      <!-- Toast Notification Container -->
+      <div 
+        *ngIf="toast.show" 
+        class="fixed top-5 right-5 z-50 max-w-sm w-full shadow-lg rounded-xl p-4 text-white flex items-center justify-between transition-all duration-300 transform translate-y-0"
+        [ngClass]="toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'"
+      >
+        <div class="flex items-center gap-3">
+          <!-- Icon -->
+          <svg *ngIf="toast.type === 'success'" class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <svg *ngIf="toast.type === 'error'" class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p class="text-sm font-medium">{{ toast.message }}</p>
+        </div>
+        
+        <button (click)="closeToast()" class="ml-4 text-white/80 hover:text-white focus:outline-none">
+          &times;
+        </button>
+      </div>
+
       <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
         
         <!-- Form Header -->
@@ -89,19 +112,19 @@ import { HttpClient } from "@angular/common/http";
                 <div *ngIf="isInvalid('gender')" class="text-xs text-red-500 mt-1">Please select gender.</div>
               </div>
 
-              <!-- Aadhar Number -->
+              <!-- Identification Field -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Aadhar Number *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Government ID Number *</label>
                 <input 
                   type="text" 
                   formControlName="aadharNo"
-                  placeholder="12-digit Aadhar number"
+                  placeholder="Enter 12-digit ID"
                   class="w-full rounded-lg border-gray-300 border px-3.5 py-2.5 text-gray-900 focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600 outline-none transition"
                 />
-                <div *ngIf="isInvalid('aadharNo')" class="text-xs text-red-500 mt-1">Enter a valid 12-digit Aadhar number.</div>
+                <div *ngIf="isInvalid('aadharNo')" class="text-xs text-red-500 mt-1">Enter a valid identification number.</div>
               </div>
 
-              <!-- Address (Full width) -->
+              <!-- Address -->
               <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Residential Address *</label>
                 <input 
@@ -311,9 +334,11 @@ import { HttpClient } from "@angular/common/http";
           <div class="pt-6 border-t flex justify-end">
             <button 
               type="submit"
-              class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition duration-200 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              [disabled]="isSubmitting"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition duration-200 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              Submit Application
+              <span *ngIf="isSubmitting" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
             </button>
           </div>
 
@@ -326,47 +351,17 @@ export class StudentReview {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
 
-  // Initialize form controls with validation logic
-  // studentForm = this.fb.group({
-  //   fullName: ['', Validators.required],
-  //   dob: ['', Validators.required],
-  //   phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-  //   email: ['', [Validators.required, Validators.email]],
-  //   gender: ['', Validators.required],
-  //   address: ['', Validators.required],
-  //   aadharNo: ['', [Validators.required, Validators.pattern('^[0-9]{12}$')]],
-    
-  //   tenthMarks: ['', Validators.required],
-  //   twelfthMarks: ['', Validators.required],
-  //   stream: ['', Validators.required],
-    
-  //   preferredCourse: ['', Validators.required],
-  //   specialization: [''],
-  //   preferredLocation: [''],
-    
-  //   universityPref1: ['', Validators.required],
-  //   universityPref2: [''],
-  //   universityPref3: [''],
-    
-  //   parentName: ['', Validators.required],
-  //   parentContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-    
-  //   feedback: [''],
-  //   signature: ['', Validators.required]
-  // });
-
-  // Helper method for field validation error display
-  // isInvalid(controlName: string): boolean {
-  //   const control = this.studentForm.get(controlName);
-  //   return !!(control && control.invalid && (control.dirty || control.touched));
-  // }
-
-  // Handle submit and output form value as JSON object
-// API Endpoint URL
   private apiUrl = 'https://api.mbcareersolutions.in/api/student-reviews';
 
-  // Loading and State Flags
   isSubmitting = false;
+
+  // Toast State Management
+  toast = {
+    show: false,
+    message: '',
+    type: 'success' as 'success' | 'error'
+  };
+  private toastTimeout: any;
 
   studentForm = this.fb.group({
     fullName: ['', Validators.required],
@@ -401,30 +396,45 @@ export class StudentReview {
     return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
-  // 3. Updated onSubmit method with HTTP POST call
+  // Display toast message for a configurable duration (default 4 seconds)
+  showToast(message: string, type: 'success' | 'error' = 'success', durationMs: number = 4000): void {
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+    
+    this.toast = { show: true, message, type };
+
+    this.toastTimeout = setTimeout(() => {
+      this.closeToast();
+    }, durationMs);
+  }
+
+  closeToast(): void {
+    this.toast.show = false;
+  }
+
   onSubmit(): void {
     if (this.studentForm.invalid) {
       this.studentForm.markAllAsTouched();
-      alert('Please fill in all required fields properly.');
+      this.showToast('Please fill in all required fields properly.', 'error');
       return;
     }
 
     this.isSubmitting = true;
 
-    // Send the form values directly matching your Java Entity fields
     this.http.post(this.apiUrl, this.studentForm.value).subscribe({
       next: (response) => {
         this.isSubmitting = false;
-        alert('Application submitted successfully!');
+        this.showToast('Application submitted successfully!', 'success');
         this.studentForm.reset();
       },
       error: (error) => {
         this.isSubmitting = false;
         console.error('Submission error:', error);
         if (error.status === 409) {
-          alert('An application with this ID/Aadhar already exists.');
+          this.showToast('An application with this ID already exists.', 'error');
         } else {
-          alert('Failed to submit application. Please try again later.');
+          this.showToast('Failed to submit application. Please try again later.', 'error');
         }
       }
     });
