@@ -125,7 +125,7 @@ export class Headers {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about-us' },
     { name: 'Courses', path: '/courses' },
-    { name: 'Schemes', path: '/schems' },
+    { name: 'scholarship', path: '/scholarship' },
     { name: 'Services', path: '/services' },
     { name: 'Contact', path: '/contact-us' }
   ];

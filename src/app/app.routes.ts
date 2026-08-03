@@ -11,6 +11,7 @@ import { Courses } from './pages/courses';
 import { Schems } from './components/pages/home/schems';
 import { Scholarship } from './pages/schlorship';
 import { CourceBasedCollegeList } from './components/pages/cources/courceBasedCollegeList';
+import { StudentReview } from './components/pages/reviews/studentReview';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -18,11 +19,14 @@ export const routes: Routes = [
   { path: 'courses', component: Courses },
   { path: 'colleges', component: CourceBasedCollegeList },
   { path: 'services', component: Services },
-  { path: 'schems', component: Scholarship },
+  { path: 'scholarship', component: Scholarship },
   { path: 'admissions', component: Admissions },
   { path: 'contact-us', component: Contactus },
   { path: 'about-us', component: Aboutus },
   { path: 'services-admissions', component: Sadmissions },
+
+    { path: 'review', component: StudentReview },
+
 
   { path: 'error-404', component: Err404 },
   { path: '**', redirectTo: 'error-404' },
