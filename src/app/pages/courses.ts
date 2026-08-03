@@ -4,23 +4,47 @@ import { RouterLink } from "@angular/router";
 @Component({
   selector: 'app-courses',
   imports: [RouterLink],
-template:`<section class="container mx-auto px-4 py-8 space-y-12">
+template:`<section class="container mx-auto px-4 py-12 space-y-12 max-w-7xl">
   <!-- Loop through Course Types -->
   @for (type of courseTypes; track type.id) {
-    <div>
-      <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ type.type }} ({{ type.duration }})</h1>
+    <div class="space-y-6">
+      <!-- Section Header with Duration Badge -->
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-4">
+        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
+          {{ type.type }}
+        </h1>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {{ type.duration }}
+        </span>
+      </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <!-- Loop through Courses in each type -->
-
+      <!-- Course Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @for (course of type.courses; track course.id) {
-          <div class="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition" >
-            <h2 routerLink="/colleges" class="text-xl font-semibold text-indigo-800">
-              {{ course.name }}
-            </h2>
-            <p routerLink="/colleges" class="text-gray-600 mt-2 text-sm">
-              {{ course.description }}
-            </p>
+          <div 
+            [routerLink]="['/colleges']" 
+            class="group relative bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2"
+          >
+            <!-- Card Body -->
+            <div class="space-y-3">
+              <h2 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors duration-200 line-clamp-2">
+                {{ course.name }}
+              </h2>
+              <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                {{ course.description }}
+              </p>
+            </div>
+
+            <!-- Card Footer / Action Link -->
+            <div class="mt-6 pt-4 border-t border-gray-50 flex items-center justify-between text-xs font-semibold text-indigo-600 group-hover:text-indigo-700">
+              <span>View Colleges</span>
+              <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
           </div>
         }
       </div>
