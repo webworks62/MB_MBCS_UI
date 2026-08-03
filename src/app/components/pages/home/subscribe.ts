@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { subscribeServices } from '../../../serviceslayer/subscribe.services';
+import { FormSubmissionService } from '../../../serviceslayer/form-submission.service';
+import { URLS } from '../../../urls/URLS';
 
 @Component({
   selector: 'app-subscribe',
@@ -63,7 +64,7 @@ export class Subscribe {
 
   constructor(
     private fb: FormBuilder,
-    private _serv: subscribeServices,
+    private formSubmission: FormSubmissionService,
   ) {}
 
   ngOnInit(): void {
@@ -82,18 +83,13 @@ export class Subscribe {
 
     const email = this.subscribeForm.value;
 
-    console.log('Subscribed Email:', this.subscribeForm.value);
-
-    this._serv.createInfo(email).subscribe({
-      next: (res: any) => {
-        if (res?.statuscode === 201) {
-          this.successMessage = '🎉 Successfully subscribed to the newsletter!';
+    this.formSubmission.submit(`${URLS.backendapi}subscribe/create`, email, 'Newsletter subscription').subscribe({
+      next: (res) => {
+        this.successMessage = res.success ? '🎉 Successfully subscribed to the newsletter!' : res.message;
+        if (res.success) {
           this.subscribeForm.reset();
           this.submitted = false;
         }
-      },
-      error: (err) => {
-        console.error('API Error:', err);
       },
     });
   }

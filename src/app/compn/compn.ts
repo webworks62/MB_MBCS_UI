@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormSubmissionService } from '../serviceslayer/form-submission.service';
+import { URLS } from '../urls/URLS';
 
 @Component({
   selector: 'app-compn',
@@ -26,11 +27,11 @@ export class Compn implements OnInit, OnDestroy {
   message: string = '';
   success: boolean = false;
 
-  API_URL = 'http://localhost:8080/api/notify';
+  API_URL = `${URLS.backendapi}notify`;
 
   constructor(
-    private http: HttpClient,
-    private cd: ChangeDetectorRef   // 👈 add this
+    private cd: ChangeDetectorRef,
+    private formSubmission: FormSubmissionService,
   ) {}
 
   ngOnInit() {
@@ -68,15 +69,16 @@ export class Compn implements OnInit, OnDestroy {
 
     const payload = { email: this.email };
 
-    this.http.post(this.API_URL, payload).subscribe({
-      next: () => {
-        this.message = '✅ You will be notified!';
-        this.success = true;
-        this.email = '';
-      },
-      error: () => {
-        this.message = '❌ Failed to send. Try again later.';
-        this.success = false;
+    this.formSubmission.submit(this.API_URL, payload, 'Notification signup').subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.message = '✅ You will be notified!';
+          this.success = true;
+          this.email = '';
+        } else {
+          this.message = res.message;
+          this.success = false;
+        }
       }
     });
   }

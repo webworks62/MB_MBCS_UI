@@ -1,7 +1,10 @@
 
 export const URLS = {
 
-  backendapi: 'https://homeapp-mu.vercel.app/api/',
-  localapi: 'http://localhost:3000/api'
+    // backendapi: 'https://api.mbcareersolutions.in/api',
+
+
+  backendapi: 'http://localhost:2233/api',
+  // localapi: 'http://localhost:2233/api'
 
 }

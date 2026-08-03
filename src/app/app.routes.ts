@@ -12,6 +12,7 @@ import { Schems } from './components/pages/home/schems';
 import { Scholarship } from './pages/schlorship';
 import { CourceBasedCollegeList } from './components/pages/cources/courceBasedCollegeList';
 import { StudentReview } from './components/pages/reviews/studentReview';
+import { schlorshipli } from './components/pages/schlorship/schlorshipli';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,7 +20,7 @@ export const routes: Routes = [
   { path: 'courses', component: Courses },
   { path: 'colleges', component: CourceBasedCollegeList },
   { path: 'services', component: Services },
-  { path: 'scholarship', component: Scholarship },
+  { path: 'scholarship', component: schlorshipli },
   { path: 'admissions', component: Admissions },
   { path: 'contact-us', component: Contactus },
   { path: 'about-us', component: Aboutus },
