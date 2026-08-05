@@ -394,7 +394,8 @@ export class StudentReview {
     // parentContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
 
     feedback: [''],
-    signature: ['', Validators.required]
+    signature: ['', Validators.required],
+    visibleStatus:[true]
   });
 
   isInvalid(controlName: string): boolean {
