@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { FormSubmissionService } from '../../../serviceslayer/form-submission.service';
+import { FormSubmissionService } from '../../../services/form-submission.service';
 import { URLS } from '../../../urls/URLS';
 
 @Component({
@@ -12,26 +12,30 @@ import { URLS } from '../../../urls/URLS';
     <div class="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 relative">
       
       <!-- Toast Notification Container -->
+       @if (toast.show) {
+             <!-- *ngIf="toast.show"  -->
       <div 
-        *ngIf="toast.show" 
+   
         class="fixed top-5 right-5 z-50 max-w-sm w-full shadow-lg rounded-xl p-4 text-white flex items-center justify-between transition-all duration-300 transform translate-y-0"
         [ngClass]="toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'"
       >
         <div class="flex items-center gap-3">
           <!-- Icon -->
-          <svg *ngIf="toast.type === 'success'" class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           @if (toast.type === 'success') {
+          <svg  class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          <svg *ngIf="toast.type === 'error'" class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          </svg>}
+             @if (toast.type === 'error') {
+          <svg  class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
+          </svg>}
           <p class="text-sm font-medium">{{ toast.message }}</p>
         </div>
         
         <button (click)="closeToast()" class="ml-4 text-white/80 hover:text-white focus:outline-none">
           &times;
         </button>
-      </div>
+      </div>}
 
       <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
         
@@ -140,7 +144,7 @@ import { URLS } from '../../../urls/URLS';
           </section>
 
           <!-- Section 2: Academic Details -->
-          <section class="space-y-6">
+          <!-- <section class="space-y-6">
             <h2 class="text-lg font-semibold text-gray-900 border-b pb-2 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
               Academic Details
@@ -184,10 +188,10 @@ import { URLS } from '../../../urls/URLS';
                 <div *ngIf="isInvalid('stream')" class="text-xs text-red-500 mt-1">Please select a stream.</div>
               </div>
             </div>
-          </section>
+          </section> -->
 
           <!-- Section 3: Course Interests -->
-          <section class="space-y-6">
+          <!-- <section class="space-y-6">
             <h2 class="text-lg font-semibold text-gray-900 border-b pb-2 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
               Course Preferences
@@ -225,10 +229,10 @@ import { URLS } from '../../../urls/URLS';
                 />
               </div>
             </div>
-          </section>
+          </section> -->
 
           <!-- Section 4: University Preferences -->
-          <section class="space-y-6">
+          <!-- <section class="space-y-6">
             <h2 class="text-lg font-semibold text-gray-900 border-b pb-2 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
               University Preferences
@@ -266,10 +270,10 @@ import { URLS } from '../../../urls/URLS';
                 />
               </div>
             </div>
-          </section>
+          </section> -->
 
           <!-- Section 5: Parent / Guardian Details -->
-          <section class="space-y-6">
+          <!-- <section class="space-y-6">
             <h2 class="text-lg font-semibold text-gray-900 border-b pb-2 flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
               Parent / Guardian Details
@@ -298,7 +302,7 @@ import { URLS } from '../../../urls/URLS';
                 <div *ngIf="isInvalid('parentContact')" class="text-xs text-red-500 mt-1">Enter a valid 10-digit number.</div>
               </div>
             </div>
-          </section>
+          </section> -->
 
           <!-- Section 6: Additional Information & Declaration -->
           <section class="space-y-6">
@@ -373,22 +377,22 @@ export class StudentReview {
     gender: ['', Validators.required],
     address: ['', Validators.required],
     aadharNo: ['', Validators.required],
-    
-    tenthMarks: ['', Validators.required],
-    twelfthMarks: ['', Validators.required],
-    stream: ['', Validators.required],
-    
-    preferredCourse: ['', Validators.required],
-    specialization: [''],
-    preferredLocation: [''],
-    
-    universityPref1: ['', Validators.required],
-    universityPref2: [''],
-    universityPref3: [''],
-    
-    parentName: ['', Validators.required],
-    parentContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-    
+
+    // tenthMarks: ['', Validators.required],
+    // twelfthMarks: ['', Validators.required],
+    // stream: ['', Validators.required],
+
+    // preferredCourse: ['', Validators.required],
+    // specialization: [''],
+    // preferredLocation: [''],
+
+    // universityPref1: ['', Validators.required],
+    // universityPref2: [''],
+    // universityPref3: [''],
+
+    // parentName: ['', Validators.required],
+    // parentContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+
     feedback: [''],
     signature: ['', Validators.required]
   });
@@ -403,7 +407,7 @@ export class StudentReview {
     if (this.toastTimeout) {
       clearTimeout(this.toastTimeout);
     }
-    
+
     this.toast = { show: true, message, type };
 
     this.toastTimeout = setTimeout(() => {

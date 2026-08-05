@@ -1,10 +1,16 @@
 import { Component, computed, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { MessageService } from "primeng/api";
+import { ToastModule } from "primeng/toast";
+import { FormSubmissionService } from "../../../services/form-submission.service";
+import { URLS } from "../../../urls/URLS";
 
 @Component({
-    selector: "app-floatcontact",
-    template: `
+  selector: "app-floatcontact",
+  template: `
+      <p-toast />
+
       <button
       type="button"
       (click)="openModal()"
@@ -49,36 +55,65 @@ import { FormsModule } from "@angular/forms";
               <div class="grid md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
-                  <input
+             <input
+type="text"
+[(ngModel)]="formData.fullName"
+name="fullName"
+required
+minlength="3"
+maxlength="100"
+pattern="^[A-Za-z ]+$"
+/>
+                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.fullName"
                     name="fullName"
                     required
+                    minlength="2"
+                    maxlength="100"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number (10 digits) *</label>
-                  <input
+                 <input
+type="tel"
+[(ngModel)]="formData.phoneNumber"
+name="phoneNumber"
+required
+maxlength="10"
+minlength="10"
+pattern="[6-9][0-9]{9}"
+/>
+                  <!-- <input
                     type="tel"
                     maxlength="10"
+                    pattern="[0-9]{10}"
                     [(ngModel)]="formData.phoneNumber"
                     name="phoneNumber"
                     required
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
                   <input
+type="email"
+[(ngModel)]="formData.email"
+name="email"
+required
+email
+/>
+                  <!-- <input
                     type="email"
                     [(ngModel)]="formData.email"
                     name="email"
                     required
+                    email
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
 
                 <div>
@@ -94,22 +129,36 @@ import { FormsModule } from "@angular/forms";
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">State</label>
-                  <input
+<input
+type="text"
+[(ngModel)]="formData.state"
+name="state"
+maxlength="50"
+pattern="^[A-Za-z ]*$"
+/>
+                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.state"
                     name="state"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">District</label>
-                  <input
+<input
+type="text"
+[(ngModel)]="formData.district"
+name="district"
+maxlength="50"
+pattern="^[A-Za-z ]*$"
+/>
+                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.district"
                     name="district"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
               </div>
             </div>
@@ -126,6 +175,8 @@ import { FormsModule } from "@angular/forms";
                     type="text"
                     [(ngModel)]="formData.institutionName"
                     name="institutionName"
+                    required
+                    minlength="2"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                   />
                 </div>
@@ -151,12 +202,21 @@ import { FormsModule } from "@angular/forms";
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Stream / Field</label>
                   <input
+type="text"
+[(ngModel)]="formData.stream"
+name="stream"
+required
+maxlength="100"
+/>
+                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.stream"
                     name="stream"
+                    required
+                    minlength="2"
                     placeholder="e.g. Science, Commerce, Arts, CSE"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
               </div>
             </div>
@@ -294,171 +354,351 @@ import { FormsModule } from "@angular/forms";
               <div class="grid md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Target Course</label>
-                  <input
+                    <input
+                      type="text"
+                      [(ngModel)]="formData.course"
+                      name="course"
+                      required
+                      minlength="2"
+                      placeholder="e.g. M.Tech, MBBS, B.Ed"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
+                                      
+                    />
+                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.course"
                     name="course"
+                    required
+                    minlength="2"
                     placeholder="e.g. M.Tech, MBBS, B.Ed"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Specialization</label>
-                  <input
+<input
+  type="text"
+                    [(ngModel)]="formData.specialization"
+                    name="specialization"
+                    required
+                    minlength="2"
+                    placeholder="e.g. Data Science, Finance"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
+/>
+                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.specialization"
                     name="specialization"
+                    required
+                    minlength="2"
                     placeholder="e.g. Data Science, Finance"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  />
+                  /> -->
                 </div>
               </div>
             </div>
 
             <!-- Modal Actions -->
-            <div class="pt-4 border-t flex justify-end gap-3">
-              <button
-                type="button"
-                (click)="closeModal()"
-                class="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                [disabled]="!contactForm.form.valid"
-                class="px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 rounded-xl transition shadow-md"
-              >
-                Submit Application
-              </button>
+            <div class="pt-4 border-t flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div class="min-h-5">
+                @if (submitSuccess()) {
+                  <p class="text-sm text-emerald-700">{{ submitSuccess() }}</p>
+                }
+                @if (submitError()) {
+                  <p class="text-sm text-red-600">{{ submitError() }}</p>
+                }
+              </div>
+              <div class="flex justify-end gap-3">
+                <button
+                  type="button"
+                  (click)="closeModal()"
+                  class="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="!contactForm.form.valid || isSubmitting()"
+                  class="px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 rounded-xl transition shadow-md"
+                >
+                  {{ isSubmitting() ? "Submitting..." : "Submit Application" }}
+                </button>
+              </div>
             </div>
           </form>
         </div>
           </div>
     }
 >`,
-    imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, ToastModule],
+  providers: [MessageService]
 })
 
 export class floatcontact implements OnInit {
+  // private readonly apiUrl = 'https://mbcareersolution.in/api/contact-forms';
+  private apiUrl = `${URLS.backendapi}/contact-forms`;
 
+  isModalOpen = signal(false);
+  isSubmitting = signal(false);
+  submitSuccess = signal<string | null>(null);
+  submitError = signal<string | null>(null);
 
+  constructor(
+    private readonly formSubmissionService: FormSubmissionService,
+    private readonly messageService: MessageService,
+  ) { }
 
-    ngOnInit(): void {
-        setTimeout(() => {
-             this.isModalOpen.set(true);
-        }, 3000);
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isModalOpen.set(true);
+    }, 3000);
+  }
+  openModal(): void {
+    this.isModalOpen.set(true);
+  }
+
+  closeModal(): void {
+    this.isModalOpen.set(false);
+  }
+
+  formData: StudentFormData = this.getInitialFormData();
+
+  submitForm(): void {
+    if (this.isSubmitting()) {
+      return;
     }
- isModalOpen = signal(false);
-    
-    openModal(): void {
-        this.isModalOpen.set(true);
-    }
 
-    closeModal(): void {
-        this.isModalOpen.set(false);
-    }
+    this.submitError.set(null);
+    this.submitSuccess.set(null);
+    this.isSubmitting.set(true);
 
+    this.formSubmissionService.submit(this.apiUrl, this.formData, 'Scholarship application').subscribe((result) => {
+      this.isSubmitting.set(false);
 
+      // Validate Full Name
+      if (!this.formData.fullName.trim() || this.formData.fullName.trim().length < 3) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please enter a valid full name.'
+        });
+        return;
+      }
 
+      // Validate Phone Number
+      if (!/^[6-9]\d{9}$/.test(this.formData.phoneNumber)) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please enter a valid 10-digit mobile number.'
+        });
+        return;
+      }
 
+      // Validate Email
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/.test(this.formData.email)) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please enter a valid email address.'
+        });
+        return;
+      }
 
+      // Institution
+      if (!this.formData.institutionName.trim()) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Institution name is required.'
+        });
+        return;
+      }
 
+      // Current Class
+      if (!this.formData.currentClass) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please select your current class.'
+        });
+        return;
+      }
 
-      formData: StudentFormData = this.getInitialFormData();
+      // Stream
+      if (!this.formData.stream.trim()) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please enter your stream.'
+        });
+        return;
+      }
 
-    submitForm(): void {
+      // Course
+      if (!this.formData.course.trim()) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please enter the course.'
+        });
+        return;
+      }
+
+      // Specialization
+      if (!this.formData.specialization.trim()) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Validation',
+          detail: 'Please enter specialization.'
+        });
+        return;
+      }
+
+      // Percentage Validation
+      const percentageRegex = /^(100(\.0{1,2})?|[0-9]{1,2}(\.[0-9]{1,2})?)$/;
+
+      const marks = [
+        this.formData.marks9th,
+        this.formData.marks10th,
+        this.formData.marks11th,
+        this.formData.marks12th,
+        this.formData.bachelorsPercentage
+      ];
+
+      for (const mark of marks) {
+        if (mark && !percentageRegex.test(mark)) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Validation',
+            detail: 'Marks should be between 0 and 100.'
+          });
+          return;
+        }
+      }
+
+      // Year-wise percentages
+      for (const mark of this.formData.bachelorsYearPercentages) {
+        if (mark && !percentageRegex.test(mark)) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Validation',
+            detail: 'Invalid Bachelor year percentage.'
+          });
+          return;
+        }
+      }
+
+      if (result.success) {
+        this.submitSuccess.set(result.message);
         console.log('Submitted Payload for Backend Entity:', this.formData);
-        alert('Application submitted successfully!');
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: result.message,
+          life: 4000,
+        });
         this.formData = this.getInitialFormData();
-        // this.closeModal();
-    }
-
-    // Dynamic Form Field Visibility Controls
-    showMarks9th = computed(() => {
-        const c = this.formData.currentClass;
-        return c === 'Class 10' || c === 'Class 11';
+        this.closeModal();
+      } else {
+        this.submitError.set(result.message);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Submission Failed',
+          detail: result.message,
+          life: 5000,
+        });
+      }
     });
+  }
 
-    showMarks10th = computed(() => {
-        const c = this.formData.currentClass;
-        return c === 'Class 11' || c === 'Class 12' || c === 'Diploma / ITI' || c === 'Undergraduate' || c === 'Postgraduate';
-    });
 
-    showMarks11th = computed(() => {
-        const c = this.formData.currentClass;
-        return c === 'Class 12';
-    });
 
-    showMarks12th = computed(() => {
-        const c = this.formData.currentClass;
-        return c === 'Undergraduate' || c === 'Postgraduate';
-    });
+  // Dynamic Form Field Visibility Controls
+  showMarks9th = computed(() => {
+    const c = this.formData.currentClass;
+    return c === 'Class 10' || c === 'Class 11';
+  });
 
-    showBachelorsFields = computed(() => {
-        const c = this.formData.currentClass;
-        return c === 'Postgraduate' || c === 'Undergraduate';
-    });
+  showMarks10th = computed(() => {
+    const c = this.formData.currentClass;
+    return c === 'Class 11' || c === 'Class 12' || c === 'Diploma / ITI' || c === 'Undergraduate' || c === 'Postgraduate';
+  });
 
-    showBachelorsYearWise = computed(() => {
-        const c = this.formData.currentClass;
-        return c === 'Postgraduate' || c === 'Undergraduate';
-    });
+  showMarks11th = computed(() => {
+    const c = this.formData.currentClass;
+    return c === 'Class 12';
+  });
 
-    addBachelorsYear(): void {
-        this.formData.bachelorsYearPercentages.push('');
-    }
+  showMarks12th = computed(() => {
+    const c = this.formData.currentClass;
+    return c === 'Undergraduate' || c === 'Postgraduate';
+  });
 
-    removeBachelorsYear(index: number): void {
-        this.formData.bachelorsYearPercentages.splice(index, 1);
-    }
+  showBachelorsFields = computed(() => {
+    const c = this.formData.currentClass;
+    return c === 'Postgraduate' || c === 'Undergraduate';
+  });
 
-    private getInitialFormData(): StudentFormData {
-        return {
-            fullName: '',
-            phoneNumber: '',
-            email: '',
-            familyIncome: '',
-            state: '',
-            district: '',
-            institutionName: '',
-            currentClass: '',
-            stream: '',
-            marks9th: '',
-            marks10th: '',
-            marks11th: '',
-            marks12th: '',
-            bachelorsDegree: '',
-            bachelorsPercentage: '',
-            bachelorsYearPercentages: [] as string[],
-            course: '',
-            specialization: ''
-        };
-    }
+  showBachelorsYearWise = computed(() => {
+    const c = this.formData.currentClass;
+    return c === 'Postgraduate' || c === 'Undergraduate';
+  });
 
-  
+  addBachelorsYear(): void {
+    this.formData.bachelorsYearPercentages.push('');
+  }
+
+  removeBachelorsYear(index: number): void {
+    this.formData.bachelorsYearPercentages.splice(index, 1);
+  }
+
+  private getInitialFormData(): StudentFormData {
+    return {
+      fullName: '',
+      phoneNumber: '',
+      email: '',
+      familyIncome: '',
+      state: '',
+      district: '',
+      institutionName: '',
+      currentClass: '',
+      stream: '',
+      marks9th: '',
+      marks10th: '',
+      marks11th: '',
+      marks12th: '',
+      bachelorsDegree: '',
+      bachelorsPercentage: '',
+      bachelorsYearPercentages: [] as string[],
+      course: '',
+      specialization: ''
+    };
+  }
+
+
 
 }
 
 
 export interface StudentFormData {
-    fullName: string;
-    phoneNumber: string;
-    email: string;
-    district: string;
-    state: string;
-    familyIncome: string;
-    institutionName: string;
-    currentClass: string;
-    stream: string;
-    marks9th: string;
-    marks10th: string;
-    marks11th: string;
-    marks12th: string;
-    bachelorsDegree: string;
-    bachelorsPercentage: string;
-    bachelorsYearPercentages: string[];
-    course: string;
-    specialization: string;
+  fullName: string;
+  phoneNumber: string;
+  email: string;
+  district: string;
+  state: string;
+  familyIncome: string;
+  institutionName: string;
+  currentClass: string;
+  stream: string;
+  marks9th: string;
+  marks10th: string;
+  marks11th: string;
+  marks12th: string;
+  bachelorsDegree: string;
+  bachelorsPercentage: string;
+  bachelorsYearPercentages: string[];
+  course: string;
+  specialization: string;
 }

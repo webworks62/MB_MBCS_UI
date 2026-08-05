@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormSubmissionService } from '../serviceslayer/form-submission.service';
+import { FormSubmissionService } from '../services/form-submission.service';
 import { URLS } from '../urls/URLS';
 
 @Component({

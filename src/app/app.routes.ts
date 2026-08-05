@@ -13,6 +13,8 @@ import { Scholarship } from './pages/schlorship';
 import { CourceBasedCollegeList } from './components/pages/cources/courceBasedCollegeList';
 import { StudentReview } from './components/pages/reviews/studentReview';
 import { schlorshipli } from './components/pages/schlorship/schlorshipli';
+import { AdminDashboard } from './components/admin/admidashboard';
+import { AdminLogin } from './components/admin/AdminLogin';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -26,7 +28,10 @@ export const routes: Routes = [
   { path: 'about-us', component: Aboutus },
   { path: 'services-admissions', component: Sadmissions },
 
-    { path: 'review', component: StudentReview },
+  { path: 'review', component: StudentReview },
+
+  { path: 'admin-login', component: AdminLogin },
+  { path: 'admin-dashboard', component: AdminDashboard },
 
 
   { path: 'error-404', component: Err404 },
