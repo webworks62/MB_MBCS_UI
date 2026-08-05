@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { FormSubmissionService } from '../../../serviceslayer/form-submission.service';
+import { FormSubmissionService } from '../../../services/form-submission.service';
 import { URLS } from '../../../urls/URLS';
 
 @Component({

@@ -6,8 +6,8 @@ import {
   ReactiveFormsModule,
   FormsModule,
 } from '@angular/forms';
-import { ContcatusService } from '../../../serviceslayer/contactus.services';
-import { FormSubmissionService } from '../../../serviceslayer/form-submission.service';
+import { ContcatusService } from '../../../services/contactus.service';
+import { FormSubmissionService } from '../../../services/form-submission.service';
 import { CommonModule } from '@angular/common';
 import { URLS } from '../../../urls/URLS';
 
