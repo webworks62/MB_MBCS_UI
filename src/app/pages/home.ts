@@ -7,11 +7,12 @@ import { Count } from '../components/pages/home/count';
 import { Subscribe } from '../components/pages/home/subscribe';
 import { Testimonials } from '../components/pages/home/testimonials';
 import { Banner } from '../components/pages/home/banner';
+import { review } from "../components/pages/home/review";
 
 @Component({
   selector: 'app-home',
-  imports: [Hero, Details, Count, Subscribe, Testimonials, Banner],
- template:`
+  imports: [Hero, Details, Count, Subscribe, Testimonials, Banner, review],
+  template: `
  <div>
   <app-banner />
 
@@ -21,7 +22,8 @@ import { Banner } from '../components/pages/home/banner';
 
   <app-details />
 
-  <app-testimonials />
+  <app-review />
+  <!-- <app-testimonials /> -->
 
   <!-- <app-universitylist /> -->
 
@@ -30,4 +32,4 @@ import { Banner } from '../components/pages/home/banner';
 
 `
 })
-export class Home {}
+export class Home { }
