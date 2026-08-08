@@ -18,6 +18,10 @@ export class FormSubmissionService {
 
   constructor(private http: HttpClient) {}
 
+  getAll<T>(url: string): Observable<T> {
+    return this.http.get<T>(url);
+  }
+
   submit<T>(url: string, payload: unknown, label: string): Observable<SubmissionResult<T>> {
     return this.http.post<T>(url, payload).pipe(
       map((data) => ({

@@ -184,13 +184,13 @@ import { MessageService } from "primeng/api";
             @if(activeon==="scholarship"){
 
             <div class="bg-white rounded-xl shadow p-6">
-                <h2 class="text-2xl font-bold mb-4">
+                <!-- <h2 class="text-2xl font-bold mb-4">
                     Scholarship Contacts
                 </h2>
 
                 <p class="text-gray-600">
                     Scholarship contact management.
-                </p>
+                </p> -->
 
                                 <app-schloarship-comp />
 
