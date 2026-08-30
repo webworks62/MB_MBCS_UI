@@ -14,13 +14,13 @@ import { URLS } from "../../../urls/URLS";
       <button
       type="button"
       (click)="openModal()"
-      class="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group"
+      class="fixed bottom-6 right-6 z-40 bg-emerald-600 bg-emerald-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center gap-2"
       aria-label="Open Application Form"
     >
       <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
-      <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out font-semibold text-sm">
+      <span class=" whitespace-nowrap group-hover:max-w-xs  font-semibold text-sm">
         Apply / Contact
       </span>
     </button>

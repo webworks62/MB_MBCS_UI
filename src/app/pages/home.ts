@@ -7,11 +7,11 @@ import { Count } from '../components/pages/home/count';
 import { Subscribe } from '../components/pages/home/subscribe';
 import { Testimonials } from '../components/pages/home/testimonials';
 import { Banner } from '../components/pages/home/banner';
-import { review } from "../components/pages/home/review";
+import { ReviewComponent } from "../components/pages/home/review";
 
 @Component({
   selector: 'app-home',
-  imports: [Hero, Details, Count, Subscribe, Testimonials, Banner, review],
+  imports: [Hero, Details, Count, Subscribe, Banner, ReviewComponent],
   template: `
  <div>
   <app-banner />
