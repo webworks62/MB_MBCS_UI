@@ -114,10 +114,15 @@ export class Universitylist {
       name: 'Swami-Narayana-university',
       icon: 'assets/universitylogo/Swami-Narayana-university.png',
     },
-    // {
-    //   id: 7,
-    //   name: 'Central University of Hyderabad',
-    //   icon: 'assets/universitylogo/cuh.svg',
-    // },
+    {
+      id: 7,
+      name: 'Marwadi',
+      icon: 'https://www.marwadiuniversity.ac.in/wp-content/themes/marwadi-university/assets/img/mu-logo.svg',
+    },
+        {
+      id: 8,
+      name: 'chettinad',
+      icon: 'https://care.edu.in/wp-content/uploads/2019/07/logo.png',
+    },
   ];
 }
