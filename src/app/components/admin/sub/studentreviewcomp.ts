@@ -508,7 +508,7 @@ import { URLS } from "../../../urls/URLS";
 })
 export class StudentReviewComp implements OnInit {
 
-    private apiUrl = `${URLS.backendapi}/contact-forms`;
+    private apiUrl = `${URLS.backendapi}/student-reviews`;
 
     DataList: any[] = [];
 
