@@ -19,9 +19,9 @@ import { RouterLink } from '@angular/router';
             class="flex items-center gap-2 cursor-pointer"
           >
             <img
-              src="assets/mb-logo.png"
+              src="assets/mb-logo.jpeg"
               alt="MB Careers Logo"
-              class="w-10 h-10 object-contain"
+              class="w-10 h-10 object-contain rounded-full"
             />
 
             <h1 class="text-lg font-bold uppercase tracking-wide">

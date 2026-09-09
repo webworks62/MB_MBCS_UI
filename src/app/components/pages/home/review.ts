@@ -62,6 +62,7 @@ interface ReviewData {
                 [style.transform]="'translateX(-' + (currentIndex() * (100 / visibleCardsCount())) + '%)'"
               >
                 @for (item of reviews(); track item.id) {
+                  @if (item.visibleStatus) {
                   <div
                     class="w-full shrink-0 px-3 lg:w-1/3"
                   >
@@ -104,6 +105,7 @@ interface ReviewData {
                       </div>
                     </div>
                   </div>
+                  }
                 }
               </div>
             </div>
@@ -192,32 +194,66 @@ export class ReviewComponent implements OnInit, OnDestroy {
   }
 
   fetchReviews() {
-    this.formSubmission.getAll<ReviewData[]>(this.apiUrl).subscribe({
-      next: (response: ReviewData[]) => {
-        this.reviews.set(response || []);
-        if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('reviewData', JSON.stringify(response));
-        }
-        this.loading.set(false);
-        this.startAutoSlide();
-      },
-      error: (error) => {
-        console.error('Failed to load reviews:', error);
-        this.loadFallbackFromStorage();
-        this.loading.set(false);
-      },
-    });
-  }
-
-  private loadFallbackFromStorage() {
-    if (isPlatformBrowser(this.platformId)) {
-      const storedData = localStorage.getItem('reviewData');
-      if (storedData) {
-        this.reviews.set(JSON.parse(storedData));
-        this.startAutoSlide();
+  this.formSubmission.getAll<ReviewData[]>(this.apiUrl).subscribe({
+    next: (response: ReviewData[]) => {
+      // Filter out items where visibleStatus is false
+      const visibleReviews = (response || []).filter(item => item.visibleStatus);
+      
+      this.reviews.set(visibleReviews);
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('reviewData', JSON.stringify(visibleReviews));
       }
+      this.loading.set(false);
+      this.startAutoSlide();
+    },
+    error: (error) => {
+      console.error('Failed to load reviews:', error);
+      this.loadFallbackFromStorage();
+      this.loading.set(false);
+    },
+  });
+}
+
+private loadFallbackFromStorage() {
+  if (isPlatformBrowser(this.platformId)) {
+    const storedData = localStorage.getItem('reviewData');
+    if (storedData) {
+      const parsedData: ReviewData[] = JSON.parse(storedData);
+      // Ensure local storage data is also filtered
+      const visibleReviews = parsedData.filter(item => item.visibleStatus);
+      this.reviews.set(visibleReviews);
+      this.startAutoSlide();
     }
   }
+}
+
+  // fetchReviews() {
+  //   this.formSubmission.getAll<ReviewData[]>(this.apiUrl).subscribe({
+  //     next: (response: ReviewData[]) => {
+  //       this.reviews.set(response || []);
+  //       if (isPlatformBrowser(this.platformId)) {
+  //         localStorage.setItem('reviewData', JSON.stringify(response));
+  //       }
+  //       this.loading.set(false);
+  //       this.startAutoSlide();
+  //     },
+  //     error: (error) => {
+  //       console.error('Failed to load reviews:', error);
+  //       this.loadFallbackFromStorage();
+  //       this.loading.set(false);
+  //     },
+  //   });
+  // }
+
+  // private loadFallbackFromStorage() {
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     const storedData = localStorage.getItem('reviewData');
+  //     if (storedData) {
+  //       this.reviews.set(JSON.parse(storedData));
+  //       this.startAutoSlide();
+  //     }
+  //   }
+  // }
 
   nextSlide() {
     if (this.currentIndex() >= this.maxIndex()) {
