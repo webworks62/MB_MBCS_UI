@@ -5,13 +5,13 @@ import { AdminService } from "../../services/admin.service";
 import { FormsModule } from "@angular/forms";
 import { BannersComp } from "./sub/bannerscomp";
 import { StudentReviewComp } from "./sub/studentreviewcomp";
-import { SchloarshipComp } from "./sub/schloarshipcomp";
 import { MessageService } from "primeng/api";
+import { ScholarshipComp } from "./sub/schloarshipcomp";
 
 @Component({
   selector: "app-admin-dashboard",
   standalone: true,
-  imports: [CommonModule, FormsModule, BannersComp, StudentReviewComp, SchloarshipComp],
+  imports: [CommonModule, FormsModule, BannersComp, StudentReviewComp, ScholarshipComp],
   providers: [MessageService],
   template: `
     <div class="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800">
@@ -87,7 +87,7 @@ import { MessageService } from "primeng/api";
                   <p class="text-sm text-slate-500 mt-0.5">Manage and review student scholarship requests</p>
                 </div>
               </div>
-              <app-schloarship-comp />
+              <app-scholarship-comp />
             </div>
           }
 

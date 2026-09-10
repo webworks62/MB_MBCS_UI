@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from "@angular/core";
+import { Component, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MessageService } from "primeng/api";
@@ -6,37 +6,63 @@ import { ToastModule } from "primeng/toast";
 import { FormSubmissionService } from "../../../services/form-submission.service";
 import { URLS } from "../../../urls/URLS";
 
+export interface StudentFormData {
+  fullName: string;
+  phoneNumber: string;
+  email: string;
+  district: string;
+  state: string;
+  familyIncome: string;
+  institutionName: string;
+  currentClass: string;
+  stream: string;
+  marks9th: string;
+  marks10th: string;
+  marks11th: string;
+  marks12th: string;
+  bachelorsDegree: string;
+  bachelorsPercentage: string;
+  bachelorsYearPercentages: string[];
+  course: string;
+  specialization: string;
+}
+
 @Component({
   selector: "app-floatcontact",
+  standalone: true,
+  imports: [CommonModule, FormsModule, ToastModule],
+  providers: [MessageService],
   template: `
-      <p-toast />
+    <p-toast />
 
-      <button
+    <!-- Floating Trigger Button -->
+    <button
       type="button"
       (click)="openModal()"
-      class="fixed bottom-6 right-6 z-40 bg-emerald-600 bg-emerald-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center gap-2"
+      class="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center gap-2 cursor-pointer transition-all"
       aria-label="Open Application Form"
     >
       <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
-      <span class=" whitespace-nowrap group-hover:max-w-xs  font-semibold text-sm">
+      <span class="whitespace-nowrap font-semibold text-sm">
         Apply / Contact
       </span>
     </button>
 
-       @if (isModalOpen()) {
-
-          <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <!-- Modal Backdrop & Dialog -->
+    @if (isModalOpen()) {
+      <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           
           <!-- Modal Header -->
-          <div class="bg-emerald-700 text-white px-6 py-4 flex items-center justify-between">
+          <div class="bg-emerald-700 text-white px-6 py-4 flex items-center justify-between shrink-0">
             <div>
               <h2 class="text-xl font-bold">Student Scholarship Form</h2>
               <p class="text-xs text-emerald-100 mt-0.5">Fill in your details for scholarship eligibility</p>
             </div>
             <button
+              type="button"
               (click)="closeModal()"
               class="text-white/80 hover:text-white bg-emerald-800/50 hover:bg-emerald-800 rounded-lg p-1.5 transition-colors"
             >
@@ -55,65 +81,45 @@ import { URLS } from "../../../urls/URLS";
               <div class="grid md:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
-             <input
-type="text"
-[(ngModel)]="formData.fullName"
-name="fullName"
-required
-minlength="3"
-maxlength="100"
-pattern="^[A-Za-z ]+$"
-/>
-                  <!-- <input
+                  <input
                     type="text"
                     [(ngModel)]="formData.fullName"
                     name="fullName"
                     required
-                    minlength="2"
+                    minlength="3"
                     maxlength="100"
+                    pattern="^[A-Za-z ]+$"
+                    placeholder="Enter full name"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number (10 digits) *</label>
-                 <input
-type="tel"
-[(ngModel)]="formData.phoneNumber"
-name="phoneNumber"
-required
-maxlength="10"
-minlength="10"
-pattern="[6-9][0-9]{9}"
-/>
-                  <!-- <input
+                  <input
                     type="tel"
-                    maxlength="10"
-                    pattern="[0-9]{10}"
                     [(ngModel)]="formData.phoneNumber"
                     name="phoneNumber"
                     required
+                    maxlength="10"
+                    minlength="10"
+                    pattern="[6-9][0-9]{9}"
+                    placeholder="e.g. 9876543210"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
                   <input
-type="email"
-[(ngModel)]="formData.email"
-name="email"
-required
-email
-/>
-                  <!-- <input
                     type="email"
                     [(ngModel)]="formData.email"
                     name="email"
                     required
                     email
+                    placeholder="example@mail.com"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
 
                 <div>
@@ -129,54 +135,47 @@ email
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">State</label>
-<input
-type="text"
-[(ngModel)]="formData.state"
-name="state"
-maxlength="50"
-pattern="^[A-Za-z ]*$"
-/>
-                  <!-- <input
+                  <input
                     type="text"
                     [(ngModel)]="formData.state"
                     name="state"
+                    maxlength="50"
+                    pattern="^[A-Za-z ]*$"
+                    placeholder="e.g. California"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
 
                 <div>
                   <label class="block text-xs font-semibold text-gray-700 mb-1">District</label>
-<input
-type="text"
-[(ngModel)]="formData.district"
-name="district"
-maxlength="50"
-pattern="^[A-Za-z ]*$"
-/>
-                  <!-- <input
+                  <input
                     type="text"
                     [(ngModel)]="formData.district"
                     name="district"
+                    maxlength="50"
+                    pattern="^[A-Za-z ]*$"
+                    placeholder="e.g. Central"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
               </div>
             </div>
 
-            <!-- Institution & Class Selection -->
+            <!-- Institution & Academic Status -->
             <div>
               <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-800 mb-3 border-b pb-1">
                 Institution & Academic Status
               </h3>
               <div class="grid md:grid-cols-2 gap-4">
                 <div class="md:col-span-2">
-                  <label class="block text-xs font-semibold text-gray-700 mb-1">Institution Name</label>
+                  <label class="block text-xs font-semibold text-gray-700 mb-1">Institution Name *</label>
                   <input
                     type="text"
                     [(ngModel)]="formData.institutionName"
                     name="institutionName"
                     required
                     minlength="2"
+                    placeholder="Enter institution or college name"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                   />
                 </div>
@@ -200,28 +199,21 @@ pattern="^[A-Za-z ]*$"
                 </div>
 
                 <div>
-                  <label class="block text-xs font-semibold text-gray-700 mb-1">Stream / Field</label>
+                  <label class="block text-xs font-semibold text-gray-700 mb-1">Stream / Field *</label>
                   <input
-type="text"
-[(ngModel)]="formData.stream"
-name="stream"
-required
-maxlength="100"
-/>
-                  <!-- <input
                     type="text"
                     [(ngModel)]="formData.stream"
                     name="stream"
                     required
-                    minlength="2"
+                    maxlength="100"
                     placeholder="e.g. Science, Commerce, Arts, CSE"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
               </div>
             </div>
 
-            <!-- Academic Details (Dynamic Based on Class Selection) -->
+            <!-- Dynamic Academic Marks Fields -->
             @if (formData.currentClass) {
               <div>
                 <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-800 mb-3 border-b pb-1">
@@ -237,6 +229,7 @@ maxlength="100"
                         type="text"
                         [(ngModel)]="formData.marks9th"
                         name="marks9th"
+                        placeholder="e.g. 85.5"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                       />
                     </div>
@@ -250,6 +243,7 @@ maxlength="100"
                         type="text"
                         [(ngModel)]="formData.marks10th"
                         name="marks10th"
+                        placeholder="e.g. 88.0"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                       />
                     </div>
@@ -263,6 +257,7 @@ maxlength="100"
                         type="text"
                         [(ngModel)]="formData.marks11th"
                         name="marks11th"
+                        placeholder="e.g. 79.2"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                       />
                     </div>
@@ -276,6 +271,7 @@ maxlength="100"
                         type="text"
                         [(ngModel)]="formData.marks12th"
                         name="marks12th"
+                        placeholder="e.g. 91.4"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                       />
                     </div>
@@ -300,13 +296,14 @@ maxlength="100"
                         type="text"
                         [(ngModel)]="formData.bachelorsPercentage"
                         name="bachelorsPercentage"
+                        placeholder="e.g. 82.5"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
                       />
                     </div>
                   }
                 </div>
 
-                <!-- Bachelor's Year-wise Percentages Dynamic List -->
+                <!-- Bachelor's Year-wise Breakdown -->
                 @if (showBachelorsYearWise()) {
                   <div class="mt-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
                     <div class="flex items-center justify-between mb-2">
@@ -314,7 +311,7 @@ maxlength="100"
                       <button
                         type="button"
                         (click)="addBachelorsYear()"
-                        class="text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-semibold px-2.5 py-1 rounded transition"
+                        class="text-xs bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-semibold px-2.5 py-1 rounded transition cursor-pointer"
                       >
                         + Add Year
                       </button>
@@ -327,13 +324,13 @@ maxlength="100"
                           type="text"
                           [(ngModel)]="formData.bachelorsYearPercentages[$index]"
                           [name]="'yearPercentage_' + $index"
-                          placeholder="e.g. 75%"
+                          placeholder="e.g. 75"
                           class="flex-1 px-3 py-1.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-emerald-500 text-sm outline-none bg-white"
                         />
                         <button
                           type="button"
                           (click)="removeBachelorsYear($index)"
-                          class="text-xs text-red-600 hover:text-red-800 px-2 py-1 font-bold"
+                          class="text-xs text-red-600 hover:text-red-800 px-2 py-1 font-bold cursor-pointer"
                         >
                           ✕
                         </button>
@@ -353,18 +350,8 @@ maxlength="100"
               </h3>
               <div class="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-semibold text-gray-700 mb-1">Target Course</label>
-                    <input
-                      type="text"
-                      [(ngModel)]="formData.course"
-                      name="course"
-                      required
-                      minlength="2"
-                      placeholder="e.g. M.Tech, MBBS, B.Ed"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                                      
-                    />
-                  <!-- <input
+                  <label class="block text-xs font-semibold text-gray-700 mb-1">Target Course *</label>
+                  <input
                     type="text"
                     [(ngModel)]="formData.course"
                     name="course"
@@ -372,21 +359,12 @@ maxlength="100"
                     minlength="2"
                     placeholder="e.g. M.Tech, MBBS, B.Ed"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
 
                 <div>
-                  <label class="block text-xs font-semibold text-gray-700 mb-1">Specialization</label>
-<input
-  type="text"
-                    [(ngModel)]="formData.specialization"
-                    name="specialization"
-                    required
-                    minlength="2"
-                    placeholder="e.g. Data Science, Finance"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-/>
-                  <!-- <input
+                  <label class="block text-xs font-semibold text-gray-700 mb-1">Specialization *</label>
+                  <input
                     type="text"
                     [(ngModel)]="formData.specialization"
                     name="specialization"
@@ -394,33 +372,33 @@ maxlength="100"
                     minlength="2"
                     placeholder="e.g. Data Science, Finance"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm"
-                  /> -->
+                  />
                 </div>
               </div>
             </div>
 
             <!-- Modal Actions -->
-            <div class="pt-4 border-t flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="pt-4 border-t flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between shrink-0">
               <div class="min-h-5">
                 @if (submitSuccess()) {
-                  <p class="text-sm text-emerald-700">{{ submitSuccess() }}</p>
+                  <p class="text-sm text-emerald-700 font-medium">{{ submitSuccess() }}</p>
                 }
                 @if (submitError()) {
-                  <p class="text-sm text-red-600">{{ submitError() }}</p>
+                  <p class="text-sm text-red-600 font-medium">{{ submitError() }}</p>
                 }
               </div>
               <div class="flex justify-end gap-3">
                 <button
                   type="button"
                   (click)="closeModal()"
-                  class="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition"
+                  class="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   [disabled]="!contactForm.form.valid || isSubmitting()"
-                  class="px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 rounded-xl transition shadow-md"
+                  class="px-6 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl transition shadow-md cursor-pointer"
                 >
                   {{ isSubmitting() ? "Submitting..." : "Submit Application" }}
                 </button>
@@ -428,15 +406,11 @@ maxlength="100"
             </div>
           </form>
         </div>
-          </div>
+      </div>
     }
->`,
-  imports: [CommonModule, FormsModule, ToastModule],
-  providers: [MessageService]
+  `
 })
-
 export class floatcontact implements OnInit {
-  // private readonly apiUrl = 'https://mbcareersolution.in/api/contact-forms';
   private apiUrl = `${URLS.backendapi}/contact-forms`;
 
   isModalOpen = signal(false);
@@ -444,16 +418,19 @@ export class floatcontact implements OnInit {
   submitSuccess = signal<string | null>(null);
   submitError = signal<string | null>(null);
 
+  formData: StudentFormData = this.getInitialFormData();
+
   constructor(
     private readonly formSubmissionService: FormSubmissionService,
-    private readonly messageService: MessageService,
-  ) { }
+    private readonly messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.isModalOpen.set(true);
     }, 3000);
   }
+
   openModal(): void {
     this.isModalOpen.set(true);
   }
@@ -462,7 +439,43 @@ export class floatcontact implements OnInit {
     this.isModalOpen.set(false);
   }
 
-  formData: StudentFormData = this.getInitialFormData();
+  // Dynamic Visibility Helpers
+  showMarks9th(): boolean {
+    const c = this.formData.currentClass;
+    return c === 'Class 10' || c === 'Class 11';
+  }
+
+  showMarks10th(): boolean {
+    const c = this.formData.currentClass;
+    return c === 'Class 11' || c === 'Class 12' || c === 'Diploma / ITI' || c === 'Undergraduate' || c === 'Postgraduate';
+  }
+
+  showMarks11th(): boolean {
+    return this.formData.currentClass === 'Class 12';
+  }
+
+  showMarks12th(): boolean {
+    const c = this.formData.currentClass;
+    return c === 'Undergraduate' || c === 'Postgraduate';
+  }
+
+  showBachelorsFields(): boolean {
+    const c = this.formData.currentClass;
+    return c === 'Postgraduate' || c === 'Undergraduate';
+  }
+
+  showBachelorsYearWise(): boolean {
+    const c = this.formData.currentClass;
+    return c === 'Postgraduate' || c === 'Undergraduate';
+  }
+
+  addBachelorsYear(): void {
+    this.formData.bachelorsYearPercentages.push('');
+  }
+
+  removeBachelorsYear(index: number): void {
+    this.formData.bachelorsYearPercentages.splice(index, 1);
+  }
 
   submitForm(): void {
     if (this.isSubmitting()) {
@@ -471,187 +484,102 @@ export class floatcontact implements OnInit {
 
     this.submitError.set(null);
     this.submitSuccess.set(null);
+
+    // Step 1: Pre-validation checks before dispatching payload to API
+    if (!this.formData.fullName.trim() || this.formData.fullName.trim().length < 3) {
+      this.showToast('warn', 'Validation', 'Please enter a valid full name (min 3 characters).');
+      return;
+    }
+
+    if (!/^[6-9]\d{9}$/.test(this.formData.phoneNumber)) {
+      this.showToast('warn', 'Validation', 'Please enter a valid 10-digit mobile number starting with 6-9.');
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/.test(this.formData.email)) {
+      this.showToast('warn', 'Validation', 'Please enter a valid email address.');
+      return;
+    }
+
+    if (!this.formData.institutionName.trim()) {
+      this.showToast('warn', 'Validation', 'Institution name is required.');
+      return;
+    }
+
+    if (!this.formData.currentClass) {
+      this.showToast('warn', 'Validation', 'Please select your current class.');
+      return;
+    }
+
+    if (!this.formData.stream.trim()) {
+      this.showToast('warn', 'Validation', 'Please enter your stream/field.');
+      return;
+    }
+
+    if (!this.formData.course.trim()) {
+      this.showToast('warn', 'Validation', 'Please enter target course.');
+      return;
+    }
+
+    if (!this.formData.specialization.trim()) {
+      this.showToast('warn', 'Validation', 'Please enter specialization.');
+      return;
+    }
+
+    // Step 2: Validate Marks Percentages (0 to 100)
+    const percentageRegex = /^(100(\.0{1,2})?|[0-9]{1,2}(\.[0-9]{1,2})?)$/;
+    const activeMarks: string[] = [];
+
+    if (this.showMarks9th() && this.formData.marks9th) activeMarks.push(this.formData.marks9th);
+    if (this.showMarks10th() && this.formData.marks10th) activeMarks.push(this.formData.marks10th);
+    if (this.showMarks11th() && this.formData.marks11th) activeMarks.push(this.formData.marks11th);
+    if (this.showMarks12th() && this.formData.marks12th) activeMarks.push(this.formData.marks12th);
+    if (this.showBachelorsFields() && this.formData.bachelorsPercentage) activeMarks.push(this.formData.bachelorsPercentage);
+
+    for (const mark of activeMarks) {
+      if (!percentageRegex.test(mark.trim())) {
+        this.showToast('warn', 'Validation', 'Percentage marks should be between 0 and 100.');
+        return;
+      }
+    }
+
+    for (const mark of this.formData.bachelorsYearPercentages) {
+      if (mark && !percentageRegex.test(mark.trim())) {
+        this.showToast('warn', 'Validation', 'Invalid Bachelor year percentage entry.');
+        return;
+      }
+    }
+
+    // Step 3: Trigger API Request only when validation succeeds
     this.isSubmitting.set(true);
 
-    this.formSubmissionService.submit(this.apiUrl, this.formData, 'Scholarship application').subscribe((result) => {
-      this.isSubmitting.set(false);
+    this.formSubmissionService
+      .submit(this.apiUrl, this.formData, 'Scholarship application')
+      .subscribe({
+        next: (result) => {
+          this.isSubmitting.set(false);
 
-      // Validate Full Name
-      if (!this.formData.fullName.trim() || this.formData.fullName.trim().length < 3) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please enter a valid full name.'
-        });
-        return;
-      }
-
-      // Validate Phone Number
-      if (!/^[6-9]\d{9}$/.test(this.formData.phoneNumber)) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please enter a valid 10-digit mobile number.'
-        });
-        return;
-      }
-
-      // Validate Email
-      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/.test(this.formData.email)) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please enter a valid email address.'
-        });
-        return;
-      }
-
-      // Institution
-      if (!this.formData.institutionName.trim()) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Institution name is required.'
-        });
-        return;
-      }
-
-      // Current Class
-      if (!this.formData.currentClass) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please select your current class.'
-        });
-        return;
-      }
-
-      // Stream
-      if (!this.formData.stream.trim()) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please enter your stream.'
-        });
-        return;
-      }
-
-      // Course
-      if (!this.formData.course.trim()) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please enter the course.'
-        });
-        return;
-      }
-
-      // Specialization
-      if (!this.formData.specialization.trim()) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Validation',
-          detail: 'Please enter specialization.'
-        });
-        return;
-      }
-
-      // Percentage Validation
-      const percentageRegex = /^(100(\.0{1,2})?|[0-9]{1,2}(\.[0-9]{1,2})?)$/;
-
-      const marks = [
-        this.formData.marks9th,
-        this.formData.marks10th,
-        this.formData.marks11th,
-        this.formData.marks12th,
-        this.formData.bachelorsPercentage
-      ];
-
-      for (const mark of marks) {
-        if (mark && !percentageRegex.test(mark)) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Validation',
-            detail: 'Marks should be between 0 and 100.'
-          });
-          return;
+          if (result.success) {
+            this.submitSuccess.set(result.message);
+            this.showToast('success', 'Success', result.message, 4000);
+            this.formData = this.getInitialFormData();
+            this.closeModal();
+          } else {
+            this.submitError.set(result.message);
+            this.showToast('error', 'Submission Failed', result.message, 5000);
+          }
+        },
+        error: (err) => {
+          this.isSubmitting.set(false);
+          const errorMsg = err?.message || 'An unexpected error occurred. Please try again.';
+          this.submitError.set(errorMsg);
+          this.showToast('error', 'Error', errorMsg, 5000);
         }
-      }
-
-      // Year-wise percentages
-      for (const mark of this.formData.bachelorsYearPercentages) {
-        if (mark && !percentageRegex.test(mark)) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Validation',
-            detail: 'Invalid Bachelor year percentage.'
-          });
-          return;
-        }
-      }
-
-      if (result.success) {
-        this.submitSuccess.set(result.message);
-        console.log('Submitted Payload for Backend Entity:', this.formData);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: result.message,
-          life: 4000,
-        });
-        this.formData = this.getInitialFormData();
-        this.closeModal();
-      } else {
-        this.submitError.set(result.message);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Submission Failed',
-          detail: result.message,
-          life: 5000,
-        });
-      }
-    });
+      });
   }
 
-
-
-  // Dynamic Form Field Visibility Controls
-  showMarks9th = computed(() => {
-    const c = this.formData.currentClass;
-    return c === 'Class 10' || c === 'Class 11';
-  });
-
-  showMarks10th = computed(() => {
-    const c = this.formData.currentClass;
-    return c === 'Class 11' || c === 'Class 12' || c === 'Diploma / ITI' || c === 'Undergraduate' || c === 'Postgraduate';
-  });
-
-  showMarks11th = computed(() => {
-    const c = this.formData.currentClass;
-    return c === 'Class 12';
-  });
-
-  showMarks12th = computed(() => {
-    const c = this.formData.currentClass;
-    return c === 'Undergraduate' || c === 'Postgraduate';
-  });
-
-  showBachelorsFields = computed(() => {
-    const c = this.formData.currentClass;
-    return c === 'Postgraduate' || c === 'Undergraduate';
-  });
-
-  showBachelorsYearWise = computed(() => {
-    const c = this.formData.currentClass;
-    return c === 'Postgraduate' || c === 'Undergraduate';
-  });
-
-  addBachelorsYear(): void {
-    this.formData.bachelorsYearPercentages.push('');
-  }
-
-  removeBachelorsYear(index: number): void {
-    this.formData.bachelorsYearPercentages.splice(index, 1);
+  private showToast(severity: string, summary: string, detail: string, life = 3000): void {
+    this.messageService.add({ severity, summary, detail, life });
   }
 
   private getInitialFormData(): StudentFormData {
@@ -671,34 +599,9 @@ export class floatcontact implements OnInit {
       marks12th: '',
       bachelorsDegree: '',
       bachelorsPercentage: '',
-      bachelorsYearPercentages: [] as string[],
+      bachelorsYearPercentages: [],
       course: '',
       specialization: ''
     };
   }
-
-
-
-}
-
-
-export interface StudentFormData {
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  district: string;
-  state: string;
-  familyIncome: string;
-  institutionName: string;
-  currentClass: string;
-  stream: string;
-  marks9th: string;
-  marks10th: string;
-  marks11th: string;
-  marks12th: string;
-  bachelorsDegree: string;
-  bachelorsPercentage: string;
-  bachelorsYearPercentages: string[];
-  course: string;
-  specialization: string;
 }
